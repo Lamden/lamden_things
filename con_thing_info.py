@@ -10,6 +10,7 @@ def add_thing(thing_string: str, description: str, owner: str, creator: str):
     uid = hashlib.sha256(thing_string)
     if not S[uid]:
         S[uid] = True
+        S[uid, 'thing'] = thing_string
         S[uid, 'type'] = 'text'
         S[uid, 'description'] = description
         S[uid, 'owner'] = owner
