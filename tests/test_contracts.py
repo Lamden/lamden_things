@@ -1,7 +1,7 @@
 import unittest
 from contracting.client import ContractingClient
 client = ContractingClient()
-with open('../currency.py') as f:
+with open('./currency.py') as f:
     code = f.read()
     client.submit(code, name='currency')
 with open('../con_thing_info.py') as f:
