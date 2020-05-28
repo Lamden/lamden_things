@@ -57,14 +57,6 @@ def give_thing(uid: str, new_owner: str):
     assert_already_owned(uid, new_owner)
     transfer_ownership(uid, new_owner)
 
-@export
-def show_things_by_owner(owner: str):
-    con_thing_owners.show_things_by_owner(owner)
-
-@export
-def show_my_things():
-    con_thing_owners.show_owners(ctx.caller)
-
 def assert_ownership(uid: str, sender):
     owner = con_thing_info.get_owner(uid)
     assert owner == sender, uid + ' not owned by ' + sender
