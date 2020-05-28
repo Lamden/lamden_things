@@ -1,6 +1,6 @@
 import con_thing_info
 import con_thing_owners
-from tests import currency
+import currency
 
 S = Hash(default_value='')
 
