@@ -9,9 +9,6 @@ with open('./currency.py') as f:
 with open('../con_thing_info.py') as f:
     code = f.read()
     client.submit(code, name='con_thing_info', owner="con_thing_master")
-with open('../con_thing_owners.py') as f:
-    code = f.read()
-    client.submit(code, name='con_thing_owners', owner="con_thing_master")
 with open('../con_thing_master.py') as f:
     code = f.read()
     client.submit(code, name='con_thing_master')
@@ -28,7 +25,6 @@ class MyTestCase(unittest.TestCase):
         client.signer = name
         self.things_contract = client.get_contract('con_thing_master')
         self.thing_info = client.get_contract('con_thing_info')
-        self.thing_owners = client.get_contract('con_thing_owners')
         self.currency_contract = client.get_contract('currency')
 
     def test_01_create_thing(self):

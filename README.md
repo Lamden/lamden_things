@@ -1,5 +1,5 @@
 # con_thing_master
-Main thing contract which owns the con_thing_info and con_thing_owners
+Main thing contract which owns con_thing_info
 
 ## Methods
 ### create_thing(thing_string: str, description: str)

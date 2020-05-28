@@ -1,5 +1,4 @@
 import con_thing_info
-import con_thing_owners
 import currency
 
 S = Hash(default_value='')
@@ -14,7 +13,6 @@ def create_thing(thing_string: str, description: str):
     sender = ctx.caller
     assert not con_thing_info.thing_exists(thing_string),  thing_string + ' already exists'
     thing_uid = con_thing_info.add_thing(thing_string, description, sender, sender)
-    con_thing_owners.add_thing(sender, thing_uid)
     return thing_uid
 
 @export
@@ -68,14 +66,8 @@ def assert_already_owned(uid: str, sender):
 def transfer_ownership(uid:str, new_owner: str):
     curr_owner = con_thing_info.get_owner(uid)
 
-    #remove thing from previous owners thing list
-    con_thing_owners.remove_thing(curr_owner, uid)
-
     #change ownership to new owner
     con_thing_info.set_owner(uid, new_owner)
-
-    #add thing to new owner's thing list
-    con_thing_owners.add_thing(new_owner, uid)
 
     # if item was for sale make it no longer for sale
     if con_thing_info.get_price_amount(uid) > 0:
