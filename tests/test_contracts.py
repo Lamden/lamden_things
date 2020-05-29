@@ -327,7 +327,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':price:amount'), 0)
 
     def test_13_give_thing_reject_not_owner(self):
-        print("TEST - BUY THING - NEG - ALREADY OWNED")
+        print("TEST - GIVE THING - NEG - NOT OWNER")
         self.change_signer('jeff')
         new_thing = self.things_contract.create_thing(
             thing_string="test_13_give_thing_reject_not_owner",
@@ -346,6 +346,41 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':owner'), 'jeff')
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':creator'), 'jeff')
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':price:amount'), 0)
+
+    def test_14_like_thing(self):
+        print("TEST - LIKE THING")
+        self.change_signer('jeff')
+        new_thing = self.things_contract.create_thing(
+            thing_string="test_14_like_thing",
+            description="test_14_like_thing"
+        )
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 0)
+        self.things_contract.like_thing(uid=new_thing)
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 1)
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':owner'), 'jeff')
+
+    def test_15_like_thing_only_once(self):
+        print("TEST - LIKE THING - NEG - CAN ONLY ONCE")
+        self.change_signer('jeff')
+        new_thing = self.things_contract.create_thing(
+            thing_string="test_15_like_thing_only_once",
+            description="test_15_like_thing_only_once"
+        )
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 0)
+
+        self.things_contract.like_thing(uid=new_thing)
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 1)
+
+        self.change_signer('stu')
+        self.things_contract.like_thing(uid=new_thing)
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 2)
+        self.assertRaises(
+            AssertionError,
+            lambda: self.things_contract.like_thing(uid=new_thing)
+        )
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':likes'), 2)
+
+        self.assertEqual(self.thing_info.quick_read('S', new_thing + ':owner'), 'jeff')
 
 if __name__ == '__main__':
     unittest.main()

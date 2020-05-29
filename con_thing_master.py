@@ -55,6 +55,13 @@ def give_thing(uid: str, new_owner: str):
     assert_already_owned(uid, new_owner)
     transfer_ownership(uid, new_owner)
 
+@export
+def like_thing(uid: str):
+    sender = ctx.caller
+    assert S['liked', uid, sender] == '', sender + " already liked " + uid
+    con_thing_info.like_thing(uid)
+    S['liked', uid, sender] = True
+
 def assert_ownership(uid: str, sender):
     owner = con_thing_info.get_owner(uid)
     assert owner == sender, uid + ' not owned by ' + sender

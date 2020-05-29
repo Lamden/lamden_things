@@ -43,3 +43,8 @@ def get_price_hold(uid: str):
 @export
 def set_owner(uid: str, owner: str):
     S[uid, 'owner'] = owner
+
+@export
+def like_thing(uid: str):
+    likes = S[uid, 'likes']
+    S[uid, 'likes'] = likes + 1
