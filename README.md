@@ -50,19 +50,6 @@ This thing can only be bought by the person who matches the "hold" value.
 ### Asserts
 - owner == tx sender, "thing not owned by sender"
 
-## sell_thing_to(uid: str, amount: int, hold: str):
-### Arguments
-- uid: unique id of the thing you want to sell (must be owner of thing)
-- amount: the amount, in TAU, to list thing for
-- hold: supply a vk to make the sale exclusive to this person
-
-### Purpose
-Allows the owner of a thing to set a price, in TAU, that the thing can be bought for.
-This thing can only be bought by the person who matches the "hold" value.
-
-### Asserts
-- owner == tx sender, "thing not owned by sender"
-
 ## give_thing_to(uid: str, new_owner: str):
 ### Arguments
 - uid: unique id of the thing you want to sell (must be owner of thing)
