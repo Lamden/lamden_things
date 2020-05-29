@@ -71,8 +71,6 @@ def assert_already_owned(uid: str, sender):
     assert owner != sender, uid + ' already owned by ' + sender
 
 def transfer_ownership(uid:str, new_owner: str):
-    curr_owner = con_thing_info.get_owner(uid)
-
     #change ownership to new owner
     con_thing_info.set_owner(uid, new_owner)
 
