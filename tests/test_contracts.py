@@ -11,7 +11,7 @@ with open('../con_thing_info.py') as f:
     client.submit(code, name='con_thing_info', owner="con_thing_master")
 with open('../con_thing_master.py') as f:
     code = f.read()
-    client.submit(code, name='con_thing_master')
+    client.submit(code, name='con_thing_master', constructor_args={'name': 'Jeff\'s Things', 'description': 'a bunch of my things'})
 
 thing1_uid = '27079f6e416094112f0a8b694424089dfe15c7927bedb22bdaafa5e6df56fe3d'
 thing2_uid = '4ca9fada87f469f252658c5810c283d48b6ca826baf216fb2c4d23578df97c75'

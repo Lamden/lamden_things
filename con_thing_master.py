@@ -4,9 +4,9 @@ import currency
 S = Hash(default_value='')
 
 @construct
-def seed():
-    S['name'] = 'My Things'
-    S['description'] = 'This is some things Jeff made'
+def seed(name: str, description: str):
+    S['name'] = name
+    S['description'] = description
 
 @export
 def create_thing(thing_string: str, description: str):
