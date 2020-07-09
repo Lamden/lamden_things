@@ -4,15 +4,24 @@ import currency
 S = Hash(default_value='')
 
 @construct
-def seed(name: str, description: str):
+def seed(name: str, description: str, icon_svg_base64: str):
+    # Enforce the Thing Requirements for submitting a thing contract
+    assert len(name) > 0, "A thing contracts needs a name value."
+    assert len(description) > 0, "A thing contracts needs a description value."
+
+    # Icons are svg files that have been encoded to a base64 string.
+    # See https://base64.guru/converter/encode/image/svg for details.
+    # NOTE: the value xmlns="http://www.w3.org/2000/svg" is a REQUIRED property in your <svg> tag.
+    assert len(icon_svg_base64) > 0, "A thing contracts needs a an icon value (base64 encoded svg)."
+
     S['name'] = name
     S['description'] = description
+    S['icon_svg'] = icon_svg_base64
 
 @export
-def create_thing(thing_string: str, description: str):
+def create_thing(thing_string: str, name: str, description: str, meta: dict = {}):
     sender = ctx.caller
-    assert not con_thing_info.thing_exists(thing_string),  thing_string + ' already exists'
-    thing_uid = con_thing_info.add_thing(thing_string, description, sender, sender)
+    thing_uid = con_thing_info.add_thing(thing_string, name, description, meta, sender)
     return thing_uid
 
 @export
@@ -61,6 +70,12 @@ def like_thing(uid: str):
     assert S['liked', uid, sender] == '', sender + " already liked " + uid
     con_thing_info.like_thing(uid)
     S['liked', uid, sender] = True
+
+@export
+def prove_ownership(uid: str, code: str):
+    sender = ctx.caller
+    assert_ownership(uid, sender)
+    con_thing_info.set_proof(uid, code)
 
 def assert_ownership(uid: str, sender):
     owner = con_thing_info.get_owner(uid)
