@@ -4,13 +4,20 @@ Main thing contract which owns con_thing_info
 ## create_thing(thing_string: str, description: str)
 ### Arguments
 - thing_string: as string representation of the thing that is to be unique
-- description: a description of the unique thing
+- name: A name for this thing, which will be unique to the contract (max 25chars). 
+Names are formatted to lowercase and all spaces removed. This is done to enforce uniqueness.
+- description: a description of the unique thing (max 128chars)
+- meta: A dictionary object for passing in meta info about the thing which is outside of the required
+thing data.
 
 ### Purpose
 Creates a unique thing in the smart contract
 
 ### Asserts
 - uid already exists in state
+- description exists and has a length <= 128
+- name exits, is unique, and has a length <= 25
+- thing_string exists
 
 ## buy_thing(uid: str):
 ### Arguments
@@ -72,3 +79,14 @@ One vk can only like a think once
 
 ### Asserts
 - ['likes'][uid]['tx sender'] == None, "can only like a thing once"
+
+## prove_ownership(uid: str, code: str):
+### Arguments
+- uid: unique id of the thing you want to prove you own
+- code: a code you will store as the proof
+
+### Purpose
+Allows a user to prove they own an item by storing a code associated with that thing.
+
+### Asserts
+- owner == tx sender, "thing not owned by sender"
