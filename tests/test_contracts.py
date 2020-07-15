@@ -59,7 +59,7 @@ class MyTestCase(unittest.TestCase):
             description="a test thing",
             meta=meta
         )
-        reqList = ['thing', 'type', 'name', 'description', 'owner', 'creator', 'likes', 'price:amount', 'price:hold']
+        reqList = ['thing', 'type', 'name', 'description', 'owner', 'creator', 'likes', 'price:amount', 'price:hold', 'meta_items']
         self.assertEqual(self.thing_info.quick_read('S', new_thing), reqList)
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':thing'), "this-is-a-thing-string")
         self.assertEqual(self.thing_info.quick_read('S', new_thing + ':type'), "text/plain")
